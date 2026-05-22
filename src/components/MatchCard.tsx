@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SoccerBall } from "@phosphor-icons/react/dist/ssr";
+import { SoccerBall, CheckCircle, XCircle, MinusCircle } from "@phosphor-icons/react/dist/ssr";
 import { formatMatchDate, formatStageLabel } from "@/lib/format";
 import CountryFlag from "@/components/CountryFlag";
 
@@ -27,6 +27,8 @@ type Props = {
   matchId: string;
   showPredictButton?: boolean;
   prediction?: Prediction | null;
+  pointsEarned?: number | null;
+  pointsLabel?: string | null;
 };
 
 function TeamDisplay({ team }: { team: Team }) {
@@ -60,6 +62,8 @@ export default function MatchCard({
   matchId,
   showPredictButton = false,
   prediction,
+  pointsEarned,
+  pointsLabel,
 }: Props) {
   const isFinished = status === "FINISHED";
   const stageLabel = formatStageLabel(stage, group);
@@ -162,6 +166,65 @@ export default function MatchCard({
       >
         {formatMatchDate(matchDate)}
       </p>
+
+      {/* Points result (finished matches with pointsEarned prop) */}
+      {isFinished && pointsEarned != null && prediction && (
+        <div
+          className="flex items-center justify-between gap-3 rounded-xl px-4 py-2.5"
+          style={{
+            background: pointsEarned >= 5
+              ? "color-mix(in srgb, var(--color-gold) 12%, var(--color-surface-container))"
+              : pointsEarned >= 3
+                ? "color-mix(in srgb, var(--color-primary-fixed) 10%, var(--color-surface-container))"
+                : "var(--color-surface-container-high)",
+          }}
+        >
+          <div className="flex items-center gap-2 min-w-0">
+            {pointsEarned >= 3 ? (
+              <CheckCircle size={16} weight="fill" className="text-primary-fixed shrink-0" />
+            ) : (
+              <XCircle size={16} weight="fill" className="text-error shrink-0" />
+            )}
+            <span className="text-on-surface-variant" style={{ fontSize: "0.6875rem" }}>
+              {pointsLabel ?? ""}
+            </span>
+          </div>
+          <span
+            className="label-bold px-3 py-1 rounded-full shrink-0"
+            style={{
+              background: pointsEarned >= 5
+                ? "var(--color-gold)"
+                : pointsEarned >= 3
+                  ? "var(--color-primary-container)"
+                  : "var(--color-surface-container-high)",
+              color: pointsEarned >= 5
+                ? "var(--color-on-gold)"
+                : pointsEarned >= 3
+                  ? "var(--color-on-primary-container)"
+                  : "var(--color-on-surface-variant)",
+              fontSize: "var(--text-label-bold)",
+            }}
+          >
+            +{pointsEarned} pts
+          </span>
+        </div>
+      )}
+      {isFinished && pointsEarned != null && !prediction && (
+        <div className="flex items-center gap-2 rounded-xl px-4 py-2.5" style={{ background: "var(--color-surface-container-high)" }}>
+          <MinusCircle size={16} className="text-on-surface-variant shrink-0" />
+          <span className="text-on-surface-variant" style={{ fontSize: "0.6875rem" }}>No prediction — Missed</span>
+          <span
+            className="ml-auto label-bold px-3 py-1 rounded-full shrink-0"
+            style={{
+              background: "var(--color-surface-container)",
+              color: "var(--color-on-surface-variant)",
+              fontSize: "var(--text-label-bold)",
+            }}
+          >
+            0 pts
+          </span>
+        </div>
+      )}
 
       {/* Predict button */}
       {showPredictButton && !isFinished && (

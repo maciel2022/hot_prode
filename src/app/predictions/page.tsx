@@ -1,12 +1,6 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import {
-  SoccerBall,
-  CheckCircle,
-  XCircle,
-  MinusCircle,
-  Trophy,
-} from "@phosphor-icons/react/dist/ssr";
+import { SoccerBall } from "@phosphor-icons/react/dist/ssr";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -137,79 +131,22 @@ export default async function PredictionsPage() {
             const pred = predictionMap.get(match.id);
 
             return (
-              <div key={match.id} className="space-y-2">
-                <MatchCard
-                  matchId={match.id}
-                  homeTeam={{ name: match.homeTeam.name, code: match.homeTeam.code }}
-                  awayTeam={{ name: match.awayTeam.name, code: match.awayTeam.code }}
-                  matchDate={match.matchDate}
-                  stage={match.stage}
-                  group={match.group}
-                  status={match.status}
-                  homeScore={match.homeScore}
-                  awayScore={match.awayScore}
-                  penaltyWinner={match.penaltyWinner}
-                  prediction={pred ? { homeScore: pred.homeScore, awayScore: pred.awayScore, penaltyWinner: pred.penaltyWinner } : null}
-                />
-
-                {/* Points breakdown */}
-                {pred ? (
-                  <div
-                    className="flex items-center justify-between gap-3 rounded-xl px-4 py-2.5"
-                    style={{
-                      background: pred.points >= 5
-                        ? "color-mix(in srgb, var(--color-gold) 12%, var(--color-surface-container))"
-                        : pred.points >= 3
-                          ? "color-mix(in srgb, var(--color-primary-fixed) 10%, var(--color-surface-container))"
-                          : "var(--color-surface-container-high)",
-                    }}
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      {pred.points >= 3 ? (
-                        <CheckCircle size={16} weight="fill" className="text-primary-fixed shrink-0" />
-                      ) : (
-                        <XCircle size={16} weight="fill" className="text-error shrink-0" />
-                      )}
-                      <span className="text-on-surface-variant" style={{ fontSize: "0.6875rem" }}>
-                        {getPointsLabel(pred.points)}
-                      </span>
-                    </div>
-                    <span
-                      className="label-bold px-3 py-1 rounded-full shrink-0"
-                      style={{
-                        background: pred.points >= 5
-                          ? "var(--color-gold)"
-                          : pred.points >= 3
-                            ? "var(--color-primary-container)"
-                            : "var(--color-surface-container-high)",
-                        color: pred.points >= 5
-                          ? "var(--color-on-gold)"
-                          : pred.points >= 3
-                            ? "var(--color-on-primary-container)"
-                            : "var(--color-on-surface-variant)",
-                        fontSize: "var(--text-label-bold)",
-                      }}
-                    >
-                      +{pred.points} pts
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2 rounded-xl px-4 py-2.5" style={{ background: "var(--color-surface-container-high)" }}>
-                    <MinusCircle size={16} className="text-on-surface-variant shrink-0" />
-                    <span className="text-on-surface-variant" style={{ fontSize: "0.6875rem" }}>No prediction — Missed</span>
-                    <span
-                      className="ml-auto label-bold px-3 py-1 rounded-full shrink-0"
-                      style={{
-                        background: "var(--color-surface-container)",
-                        color: "var(--color-on-surface-variant)",
-                        fontSize: "var(--text-label-bold)",
-                      }}
-                    >
-                      0 pts
-                    </span>
-                  </div>
-                )}
-              </div>
+              <MatchCard
+                key={match.id}
+                matchId={match.id}
+                homeTeam={{ name: match.homeTeam.name, code: match.homeTeam.code }}
+                awayTeam={{ name: match.awayTeam.name, code: match.awayTeam.code }}
+                matchDate={match.matchDate}
+                stage={match.stage}
+                group={match.group}
+                status={match.status}
+                homeScore={match.homeScore}
+                awayScore={match.awayScore}
+                penaltyWinner={match.penaltyWinner}
+                prediction={pred ? { homeScore: pred.homeScore, awayScore: pred.awayScore, penaltyWinner: pred.penaltyWinner } : null}
+                pointsEarned={pred ? pred.points : 0}
+                pointsLabel={pred ? getPointsLabel(pred.points) : null}
+              />
             );
           })}
         </div>
