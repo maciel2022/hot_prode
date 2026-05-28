@@ -232,8 +232,8 @@ export default function MatchCard({
           href={`/predictions/${matchId}`}
           className="mt-1 w-full flex items-center justify-center gap-2 rounded-xl py-2.5 md:py-3 text-on-primary font-bold label-bold transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] no-underline"
           style={{
-            background: "linear-gradient(135deg, var(--color-coral) 0%, var(--color-coral-dim) 100%)",
-            color: "#fff",
+            background: "linear-gradient(135deg, var(--color-primary-fixed) 0%, var(--color-primary-fixed-dim) 100%)",
+            color: "#003d2e",
           }}
         >
           <SoccerBall size={18} weight="fill" />

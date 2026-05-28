@@ -46,9 +46,13 @@ export default function PredictionTabs({
               className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg label-bold tracking-widest text-xs transition-all cursor-pointer"
               style={{
                 background: isActive
-                  ? "linear-gradient(135deg, var(--color-primary-fixed-dim), var(--color-secondary-container))"
+                  ? key === "history"
+                    ? "linear-gradient(135deg, var(--color-secondary-container) 0%, #5800cc 100%)"
+                    : "linear-gradient(135deg, var(--color-primary-fixed) 0%, var(--color-primary-fixed-dim) 100%)"
                   : "transparent",
-                color: isActive ? "var(--color-on-primary-fixed)" : "var(--color-on-surface-variant)",
+                color: isActive
+                  ? key === "history" ? "#fff" : "#003d2e"
+                  : "var(--color-on-surface-variant)",
               }}
             >
               <Icon size={16} weight={isActive ? "fill" : "regular"} />

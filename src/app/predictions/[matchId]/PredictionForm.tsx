@@ -46,7 +46,7 @@ function SubmitButton() {
       type="submit"
       disabled={pending}
       className="w-full font-display text-label-bold py-4 rounded-xl uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 text-white"
-      style={{ background: "linear-gradient(135deg, var(--color-coral) 0%, var(--color-coral-dim) 100%)" }}
+      style={{ background: "linear-gradient(135deg, var(--color-primary-fixed) 0%, var(--color-primary-fixed-dim) 100%)", color: "#003d2e" }}
     >
       {pending ? "LOCKING IN..." : "LOCK IT IN"}
     </button>

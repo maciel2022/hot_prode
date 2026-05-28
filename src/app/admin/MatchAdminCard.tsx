@@ -253,8 +253,8 @@ export default function MatchAdminCard({ match }: Props) {
             disabled={pending}
             className="w-full rounded-lg py-2.5 label-bold tracking-widest text-xs transition-opacity disabled:opacity-50 cursor-pointer"
             style={{
-              background: "linear-gradient(to right, var(--color-primary-fixed-dim), var(--color-secondary-container))",
-              color: "#fff",
+              background: "linear-gradient(135deg, var(--color-primary-fixed) 0%, var(--color-primary-fixed-dim) 100%)",
+              color: "#003d2e",
             }}
           >
             {pending ? "SAVING..." : "SAVE RESULT & CALCULATE POINTS"}

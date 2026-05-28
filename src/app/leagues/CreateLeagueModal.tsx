@@ -160,8 +160,8 @@ export default function CreateLeagueModal() {
             className="w-full rounded-lg px-4 py-3 label-bold uppercase tracking-widest transition-opacity disabled:opacity-60"
             style={{
               background:
-                "linear-gradient(to right, var(--color-primary-fixed-dim), var(--color-secondary-container))",
-              color: "white",
+                "linear-gradient(135deg, var(--color-primary-fixed) 0%, var(--color-primary-fixed-dim) 100%)",
+              color: "#003d2e",
             }}
           >
             {pending ? "Creating..." : "CREATE LEAGUE"}

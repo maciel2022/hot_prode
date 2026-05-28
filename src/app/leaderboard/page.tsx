@@ -7,48 +7,94 @@ import { prisma } from "@/lib/prisma";
 import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
 import AnimatedSection from "@/components/AnimatedSection";
+import LeaguePicker from "./LeaguePicker";
 
 export const metadata = { title: "Leaderboard — PRODEPT 2026" };
 
-export default async function LeaderboardPage() {
+type Props = {
+  searchParams: Promise<{ league?: string }>;
+};
+
+export default async function LeaderboardPage({ searchParams }: Props) {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
   const userId = session.user.id;
+  const params = await searchParams;
+  const leagueId = params.league ?? "";
 
-  const [user, allUsers, pointsAgg, countsAgg] = await Promise.all([
+  // Fetch user, their leagues, and ranking data in parallel
+  const [user, userLeagues] = await Promise.all([
     prisma.user.findUnique({
       where: { id: userId },
       select: { id: true, name: true, email: true, image: true, isAdmin: true },
     }),
-    prisma.user.findMany({
-      select: { id: true, name: true, image: true },
-    }),
-    prisma.prediction.groupBy({
-      by: ["userId"],
-      _sum: { points: true },
-    }),
-    prisma.prediction.groupBy({
-      by: ["userId"],
-      _count: true,
+    prisma.leagueMember.findMany({
+      where: { userId },
+      select: {
+        league: { select: { id: true, name: true, isGlobal: true } },
+      },
     }),
   ]);
 
   if (!user) redirect("/login");
 
-  // Build lookup maps from aggregated data
-  const pointsMap = new Map(pointsAgg.map((p) => [p.userId, p._sum.points ?? 0]));
-  const countsMap = new Map(countsAgg.map((c) => [c.userId, c._count]));
+  const leagues = userLeagues
+    .filter((lm) => !lm.league.isGlobal)
+    .map((lm) => ({ id: lm.league.id, name: lm.league.name }));
 
-  // Build ranked list
-  const ranked = allUsers
-    .map((u) => ({
-      id: u.id,
-      name: u.name,
-      image: u.image,
-      totalPoints: pointsMap.get(u.id) ?? 0,
-      totalPredictions: countsMap.get(u.id) ?? 0,
-    }))
-    .sort((a, b) => b.totalPoints - a.totalPoints || b.totalPredictions - a.totalPredictions);
+  // Determine selected league name
+  const selectedLeague = leagueId ? leagues.find((l) => l.id === leagueId) : null;
+  const leagueLabel = selectedLeague ? selectedLeague.name : "Global Ranking";
+
+  // Build ranked list based on selected league
+  let ranked: { id: string; name: string; image: string | null; totalPoints: number; totalPredictions: number }[];
+
+  if (leagueId && selectedLeague) {
+    // League-specific: get members of that league with their predictions
+    const leagueMembers = await prisma.leagueMember.findMany({
+      where: { leagueId },
+      select: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+            predictions: { select: { points: true } },
+          },
+        },
+      },
+    });
+
+    ranked = leagueMembers
+      .map((lm) => ({
+        id: lm.user.id,
+        name: lm.user.name,
+        image: lm.user.image,
+        totalPoints: lm.user.predictions.reduce((sum, p) => sum + p.points, 0),
+        totalPredictions: lm.user.predictions.length,
+      }))
+      .sort((a, b) => b.totalPoints - a.totalPoints || b.totalPredictions - a.totalPredictions);
+  } else {
+    // Global ranking
+    const [allUsers, pointsAgg, countsAgg] = await Promise.all([
+      prisma.user.findMany({ select: { id: true, name: true, image: true } }),
+      prisma.prediction.groupBy({ by: ["userId"], _sum: { points: true } }),
+      prisma.prediction.groupBy({ by: ["userId"], _count: true }),
+    ]);
+
+    const pointsMap = new Map(pointsAgg.map((p) => [p.userId, p._sum.points ?? 0]));
+    const countsMap = new Map(countsAgg.map((c) => [c.userId, c._count]));
+
+    ranked = allUsers
+      .map((u) => ({
+        id: u.id,
+        name: u.name,
+        image: u.image,
+        totalPoints: pointsMap.get(u.id) ?? 0,
+        totalPredictions: countsMap.get(u.id) ?? 0,
+      }))
+      .sort((a, b) => b.totalPoints - a.totalPoints || b.totalPredictions - a.totalPredictions);
+  }
 
   const myIndex = ranked.findIndex((u) => u.id === userId);
   const myRank = myIndex >= 0 ? myIndex + 1 : ranked.length + 1;
@@ -99,6 +145,9 @@ export default async function LeaderboardPage() {
               </h1>
               <p className="text-on-surface-variant text-sm">
                 You are ranked <span className="text-primary-fixed font-bold">#{myRank}</span> of {ranked.length} players
+                {selectedLeague && (
+                  <span> in <span className="text-on-surface font-semibold">{selectedLeague.name}</span></span>
+                )}
               </p>
             </div>
             <Image
@@ -110,6 +159,13 @@ export default async function LeaderboardPage() {
             />
           </section>
         </AnimatedSection>
+
+        {/* League picker */}
+        {leagues.length > 0 && (
+          <AnimatedSection delay={0.1}>
+            <LeaguePicker leagues={leagues} />
+          </AnimatedSection>
+        )}
 
         {/* Podium — Top 3 */}
         {top3.length > 0 && (
@@ -195,7 +251,7 @@ export default async function LeaderboardPage() {
         <AnimatedSection delay={0.25}>
           <section className="space-y-3">
             <h2 className="label-bold text-primary-fixed uppercase tracking-widest">
-              Full Rankings
+              {selectedLeague ? selectedLeague.name : "Full Rankings"}
             </h2>
             <div className="space-y-2">
               {ranked.map((entry, idx) => {

@@ -10,6 +10,7 @@ import BottomNav from "@/components/BottomNav";
 import MatchCard from "@/components/MatchCard";
 import StatsCard from "@/components/StatsCard";
 import AnimatedSection from "@/components/AnimatedSection";
+import ScoringRulesModal from "@/components/ScoringRulesModal";
 
 export default async function HomePage() {
   // ── 1. Auth guard ──────────────────────────────────────────────────────────
@@ -98,21 +99,8 @@ export default async function HomePage() {
       <main className="w-full pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
         {/* ── Hero section ──────────────────────────────────────────────── */}
         <AnimatedSection>
-          <section className="relative pt-6 md:pt-10 pb-2 overflow-hidden">
-            <span
-              className="absolute inset-0 hidden lg:flex items-center justify-center select-none pointer-events-none font-display leading-none text-on-surface"
-              style={{
-                fontSize: "var(--text-display-xl)",
-                lineHeight: "var(--text-display-xl--line-height)",
-                opacity: 0.06,
-                letterSpacing: "-0.02em",
-              }}
-              aria-hidden="true"
-            >
-              PRODEPT
-            </span>
-
-            <div className="relative z-10 flex items-center justify-between gap-3">
+          <section className="pt-6 md:pt-10 pb-2">
+            <div className="flex items-center justify-between gap-3">
               <div className="space-y-1 md:space-y-2 min-w-0">
                 <p className="label-bold text-primary-fixed tracking-widest">
                   FIFA WORLD CUP 2026
@@ -142,9 +130,12 @@ export default async function HomePage() {
         {/* ── Next Match ────────────────────────────────────────────────── */}
         <AnimatedSection delay={0.15}>
         <section className="space-y-3">
-          <h2 className="label-bold text-primary-fixed uppercase tracking-widest">
-            Your Next Big Call
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="label-bold text-primary-fixed uppercase tracking-widest">
+              Your Next Big Call
+            </h2>
+            <ScoringRulesModal />
+          </div>
 
           {nextMatch ? (
             <MatchCard
