@@ -100,7 +100,7 @@ export default async function ProfilePage() {
 
       <Navbar user={{ ...user, image: user.image ?? undefined }} />
 
-      <main className="pt-20 pb-24 px-3 md:px-8 md:max-w-3xl lg:max-w-4xl mx-auto space-y-8">
+      <main className="w-full pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
         {/* Profile header */}
         <AnimatedSection>
           <section className="pt-6 pb-2">

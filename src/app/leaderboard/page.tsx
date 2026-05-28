@@ -85,15 +85,15 @@ export default async function LeaderboardPage() {
 
       <Navbar user={{ ...user, image: user.image ?? undefined }} />
 
-      <main className="pt-20 pb-24 px-3 md:px-8 md:max-w-3xl lg:max-w-4xl mx-auto space-y-8">
+      <main className="w-full pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
         {/* Header */}
         <AnimatedSection>
-          <section className="pt-6 pb-2 flex items-center justify-between gap-3">
+          <section className="pt-6 md:pt-10 pb-2 flex items-center justify-between gap-3">
             <div className="space-y-1 min-w-0">
               <p className="label-bold text-primary-fixed tracking-widest">
                 FIFA WORLD CUP 2026
               </p>
-              <h1 className="font-display text-on-surface leading-none text-[2.5rem] md:text-[4rem]">
+              <h1 className="font-display text-on-surface leading-none text-[3rem] md:text-[4rem] lg:text-[5rem]">
                 LEADER
                 <span style={{ color: "var(--color-primary-fixed)" }}>BOARD</span>
               </h1>
@@ -106,7 +106,7 @@ export default async function LeaderboardPage() {
               alt="FIFA World Cup 2026"
               width={120}
               height={120}
-              className="w-16 h-16 md:w-24 md:h-24 object-contain shrink-0"
+              className="w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 object-contain shrink-0"
             />
           </section>
         </AnimatedSection>

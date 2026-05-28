@@ -66,13 +66,13 @@ export default async function AdminPage() {
 
       <Navbar user={{ ...user, image: user.image ?? undefined }} />
 
-      <main className="pt-20 pb-12 px-3 md:px-8 md:max-w-5xl mx-auto space-y-8">
+      <main className="w-full pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
         {/* Header */}
         <AnimatedSection>
-          <section className="pt-6 pb-2 flex items-center justify-between gap-3">
-            <div className="space-y-1 min-w-0">
+          <section className="pt-6 md:pt-10 pb-2 flex items-center justify-between gap-3">
+            <div className="space-y-1 md:space-y-2 min-w-0">
               <p className="label-bold text-coral tracking-widest">ADMIN PANEL</p>
-              <h1 className="font-display text-on-surface leading-none text-[2.5rem] md:text-[3.5rem]">
+              <h1 className="font-display text-on-surface leading-none text-[3rem] md:text-[4rem] lg:text-[5rem]">
                 MATCH <span style={{ color: "var(--color-primary-fixed)" }}>CONTROL</span>
               </h1>
             </div>

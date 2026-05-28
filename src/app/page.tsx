@@ -95,7 +95,7 @@ export default async function HomePage() {
 
       <Navbar user={{ ...user, image: user.image ?? undefined }} />
 
-      <main className="pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
+      <main className="w-full pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
         {/* ── Hero section ──────────────────────────────────────────────── */}
         <AnimatedSection>
           <section className="relative pt-6 md:pt-10 pb-2 overflow-hidden">

@@ -67,7 +67,7 @@ export default async function PredictionMatchPage({ params }: Props) {
 
       <Navbar user={{ ...user, image: user.image ?? undefined }} />
 
-      <main className="pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
+      <main className="w-full pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
         {/* ── Header ──────────────────────────────────────────────────────── */}
         <section className="pt-6 md:pt-10 pb-2 space-y-4">
           {/* Back link */}

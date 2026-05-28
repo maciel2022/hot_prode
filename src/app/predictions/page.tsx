@@ -170,7 +170,7 @@ export default async function PredictionsPage() {
 
       <Navbar user={{ ...user, image: user.image ?? undefined }} />
 
-      <main className="pt-20 pb-24 px-3 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
+      <main className="w-full pt-20 pb-24 px-5 md:px-8 md:max-w-3xl lg:max-w-5xl mx-auto space-y-8 md:space-y-10">
         {/* ── Page header ─────────────────────────────────────────────────── */}
         <AnimatedSection>
           <section className="pt-6 md:pt-10 pb-2 flex items-center justify-between gap-3">
