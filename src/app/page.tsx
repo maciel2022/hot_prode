@@ -12,6 +12,7 @@ import MatchCard from "@/components/MatchCard";
 import StatsCard from "@/components/StatsCard";
 import AnimatedSection from "@/components/AnimatedSection";
 import ScoringRulesModal from "@/components/ScoringRulesModal";
+import HowToPlayModal from "@/components/HowToPlayModal";
 
 export default async function HomePage() {
   // ── 1. Auth guard ──────────────────────────────────────────────────────────
@@ -137,7 +138,10 @@ export default async function HomePage() {
             <h2 className="label-bold text-primary-fixed uppercase tracking-widest">
               {t("nextBigCall")}
             </h2>
-            <ScoringRulesModal />
+            <div className="flex items-center gap-2">
+              <HowToPlayModal />
+              <ScoringRulesModal />
+            </div>
           </div>
 
           {nextMatch ? (

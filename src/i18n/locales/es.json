@@ -187,6 +187,20 @@
     "showPassword": "Mostrar contraseña",
     "creatingAccount": "CREANDO CUENTA..."
   },
+  "howToPlay": {
+    "button": "CÓMO JUGAR",
+    "title": "CÓMO JUGAR",
+    "step1Label": "HACÉ TU PREDICCIÓN",
+    "step1Desc": "Elegí el resultado de cada partido antes de que arranque",
+    "step2Label": "SUMÁ PUNTOS",
+    "step2Desc": "Consultá las reglas de puntaje en la tarjeta amarilla para ver cómo se suman los puntos",
+    "step3Label": "CREÁ TU LIGA",
+    "step3Desc": "Armá una liga privada y compartí el código con amigos",
+    "step4Label": "COMPETÍ Y SUBÍ",
+    "step4Desc": "Seguí tu ranking global y en cada liga que participes",
+    "tip": "COMPARTÍ EL CÓDIGO DE TU LIGA CON AMIGOS Y COMPETÍ JUNTOS",
+    "cta": "¡VAMOS!"
+  },
   "scoring": {
     "rules": "REGLAS",
     "title": "REGLAS DE PUNTAJE",

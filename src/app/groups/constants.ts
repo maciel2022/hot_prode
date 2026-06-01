@@ -22,3 +22,7 @@ export const KNOCKOUT_STAGES = [
   { key: "THIRD_PLACE", label: "thirdPlace", bg: "#F4A261", text: "#1a1a1a" },
   { key: "FINAL", label: "final", bg: "#FFD700", text: "#1a1a1a" },
 ] as const;
+
+export const STAGE_COLORS = Object.fromEntries(
+  KNOCKOUT_STAGES.map((s) => [s.key, s.bg])
+) as Record<string, string>;

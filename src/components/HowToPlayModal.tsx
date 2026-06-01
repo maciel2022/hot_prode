@@ -2,43 +2,39 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, Target, CheckCircle, PlusMinus, Trophy, Info } from "@phosphor-icons/react";
+import { X, SoccerBall, Star, UsersThree, TrendUp, Question } from "@phosphor-icons/react";
 import { useTranslations } from "next-intl";
 
-const RULES_CONFIG = [
+const STEPS_CONFIG = [
   {
-    icon: Target,
-    labelKey: "exactScore" as const,
-    points: "5",
-    descriptionKey: "exactScoreDesc" as const,
-    example: "Pred 2-1 · Real 2-1",
+    icon: SoccerBall,
+    labelKey: "step1Label" as const,
+    step: "1",
+    descriptionKey: "step1Desc" as const,
   },
   {
-    icon: CheckCircle,
-    labelKey: "correctResult" as const,
-    points: "3",
-    descriptionKey: "correctResultDesc" as const,
-    example: "Pred 3-1 · Real 2-0",
+    icon: Star,
+    labelKey: "step2Label" as const,
+    step: "2",
+    descriptionKey: "step2Desc" as const,
   },
   {
-    icon: PlusMinus,
-    labelKey: "goalDifference" as const,
-    points: "+1",
-    descriptionKey: "goalDifferenceDesc" as const,
-    example: "Pred 3-1 · Real 4-2",
+    icon: UsersThree,
+    labelKey: "step3Label" as const,
+    step: "3",
+    descriptionKey: "step3Desc" as const,
   },
   {
-    icon: Trophy,
-    labelKey: "knockoutBonus" as const,
-    points: "+2",
-    descriptionKey: "knockoutBonusDesc" as const,
-    example: "Knockout stages only",
+    icon: TrendUp,
+    labelKey: "step4Label" as const,
+    step: "4",
+    descriptionKey: "step4Desc" as const,
   },
 ];
 
-export default function ScoringRulesModal() {
+export default function HowToPlayModal() {
   const [open, setOpen] = useState(false);
-  const t = useTranslations("scoring");
+  const t = useTranslations("howToPlay");
 
   return (
     <>
@@ -47,14 +43,14 @@ export default function ScoringRulesModal() {
         onClick={() => setOpen(true)}
         className="flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1 md:py-1.5 rounded-full label-bold tracking-widest text-[0.6rem] md:text-xs transition-all hover:opacity-80"
         style={{
-          background: "rgba(255, 210, 63, 0.15)",
-          color: "#ffd23f",
-          border: "1px solid rgba(255, 210, 63, 0.3)",
+          background: "rgba(229, 57, 53, 0.15)",
+          color: "#e53935",
+          border: "1px solid rgba(229, 57, 53, 0.3)",
         }}
       >
-        <Info size={14} weight="fill" className="md:hidden" />
-        <Info size={16} weight="fill" className="hidden md:block" />
-        {t("rules")}
+        <Question size={14} weight="fill" className="md:hidden" />
+        <Question size={16} weight="fill" className="hidden md:block" />
+        {t("button")}
       </button>
 
       {open && (
@@ -65,11 +61,11 @@ export default function ScoringRulesModal() {
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
 
-          {/* Referee Card */}
+          {/* Red Card */}
           <div
             className="relative w-72 md:w-80"
             style={{
-              transform: "rotate(-2deg)",
+              transform: "rotate(2deg)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -77,14 +73,14 @@ export default function ScoringRulesModal() {
             <div
               className="relative rounded-2xl overflow-hidden flex flex-col"
               style={{
-                background: "linear-gradient(170deg, #ffe066 0%, #ffd23f 30%, #f5c518 70%, #e6b400 100%)",
-                boxShadow: "0 20px 60px rgba(255, 210, 63, 0.3), 0 0 0 1px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.3)",
+                background: "linear-gradient(170deg, #ff6b6b 0%, #e53935 30%, #c62828 70%, #b71c1c 100%)",
+                boxShadow: "0 20px 60px rgba(229, 57, 53, 0.3), 0 0 0 1px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.3)",
               }}
             >
               {/* Top accent line */}
               <div
                 className="h-1.5 w-full"
-                style={{ background: "linear-gradient(90deg, #e6b400, #ffd23f, #e6b400)" }}
+                style={{ background: "linear-gradient(90deg, #b71c1c, #e53935, #b71c1c)" }}
               />
 
               {/* Close button */}
@@ -92,9 +88,9 @@ export default function ScoringRulesModal() {
                 type="button"
                 onClick={() => setOpen(false)}
                 className="absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center z-10 transition-colors"
-                style={{ background: "rgba(0,0,0,0.15)" }}
+                style={{ background: "rgba(0,0,0,0.2)" }}
               >
-                <X size={16} weight="bold" style={{ color: "#5a4500" }} />
+                <X size={16} weight="bold" style={{ color: "rgba(255,255,255,0.8)" }} />
               </button>
 
               {/* FIFA logo + header */}
@@ -108,89 +104,79 @@ export default function ScoringRulesModal() {
                 />
                 <h2
                   className="font-display text-center mt-1.5 leading-none"
-                  style={{ color: "#3d2e00", fontSize: "1.3rem" }}
+                  style={{ color: "#fff", fontSize: "1.3rem" }}
                 >
                   {t("title")}
                 </h2>
                 <div
                   className="w-12 h-0.5 mt-1.5 rounded-full"
-                  style={{ background: "rgba(0,0,0,0.15)" }}
+                  style={{ background: "rgba(255,255,255,0.25)" }}
                 />
               </div>
 
-              {/* Rules list */}
+              {/* Steps list */}
               <div className="px-4 space-y-1.5">
-                {RULES_CONFIG.map((rule) => (
+                {STEPS_CONFIG.map((step) => (
                   <div
-                    key={rule.labelKey}
+                    key={step.labelKey}
                     className="flex items-center gap-2.5 rounded-xl px-3 py-2"
-                    style={{ background: "rgba(0,0,0,0.08)" }}
+                    style={{ background: "rgba(0,0,0,0.15)" }}
                   >
                     <div
                       className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                      style={{ background: "rgba(0,0,0,0.1)" }}
+                      style={{ background: "rgba(0,0,0,0.15)" }}
                     >
-                      <rule.icon size={18} weight="fill" style={{ color: "#5a4500" }} />
+                      <step.icon size={18} weight="fill" style={{ color: "rgba(255,255,255,0.9)" }} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline justify-between gap-1">
                         <span
                           className="font-bold tracking-wider"
-                          style={{ color: "#3d2e00", fontSize: "0.7rem" }}
+                          style={{ color: "#fff", fontSize: "0.7rem" }}
                         >
-                          {t(rule.labelKey)}
+                          {t(step.labelKey)}
                         </span>
                         <span
                           className="font-display shrink-0"
-                          style={{ color: "#3d2e00", fontSize: "1.1rem", lineHeight: 1 }}
+                          style={{ color: "rgba(255,255,255,0.5)", fontSize: "1.1rem", lineHeight: 1 }}
                         >
-                          {rule.points}
+                          {step.step}
                         </span>
                       </div>
-                      <p style={{ color: "#6b5300", fontSize: "0.65rem", lineHeight: "1.3" }}>
-                        {t(rule.descriptionKey)}
+                      <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.65rem", lineHeight: "1.3" }}>
+                        {t(step.descriptionKey)}
                       </p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Max points footer */}
+              {/* Footer tip */}
               <div className="px-4 pt-2 pb-4">
                 <div
-                  className="flex gap-2 rounded-xl overflow-hidden"
-                  style={{ background: "rgba(0,0,0,0.1)" }}
+                  className="rounded-xl px-3 py-2.5 text-center"
+                  style={{ background: "rgba(0,0,0,0.15)" }}
                 >
-                  <div className="flex-1 py-2 text-center">
-                    <p className="font-display" style={{ color: "#3d2e00", fontSize: "1.4rem", lineHeight: 1 }}>5</p>
-                    <p className="font-bold tracking-wider mt-0.5" style={{ color: "#6b5300", fontSize: "0.55rem" }}>
-                      {t("maxGroups")}
-                    </p>
-                  </div>
-                  <div
-                    className="w-px self-stretch"
-                    style={{ background: "rgba(0,0,0,0.1)" }}
-                  />
-                  <div className="flex-1 py-2 text-center">
-                    <p className="font-display" style={{ color: "#3d2e00", fontSize: "1.4rem", lineHeight: 1 }}>7</p>
-                    <p className="font-bold tracking-wider mt-0.5" style={{ color: "#6b5300", fontSize: "0.55rem" }}>
-                      {t("maxKnockout")}
-                    </p>
-                  </div>
+                  <p
+                    className="font-bold tracking-wider"
+                    style={{ color: "rgba(255,255,255,0.9)", fontSize: "0.6rem", lineHeight: "1.4" }}
+                  >
+                    {t("tip")}
+                  </p>
                 </div>
 
-                {/* GOT IT button */}
+                {/* CTA button */}
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
                   className="w-full mt-2.5 rounded-xl px-4 py-2.5 font-display tracking-wider transition-opacity hover:opacity-90"
                   style={{
-                    background: "#3d2e00",
-                    color: "#ffd23f",
+                    background: "rgba(255,255,255,0.95)",
+                    color: "#b71c1c",
                     fontSize: "0.85rem",
                   }}
                 >
-                  {t("gotIt")}
+                  {t("cta")}
                 </button>
               </div>
             </div>

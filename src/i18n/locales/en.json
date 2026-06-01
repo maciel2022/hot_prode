@@ -187,6 +187,20 @@
     "showPassword": "Show password",
     "creatingAccount": "CREATING ACCOUNT..."
   },
+  "howToPlay": {
+    "button": "HOW TO PLAY",
+    "title": "HOW TO PLAY",
+    "step1Label": "MAKE YOUR PREDICTION",
+    "step1Desc": "Pick the score for each match before it kicks off",
+    "step2Label": "EARN POINTS",
+    "step2Desc": "Check the scoring rules on the yellow card to see how points are earned",
+    "step3Label": "CREATE YOUR LEAGUE",
+    "step3Desc": "Set up a private league and share the code with friends",
+    "step4Label": "COMPETE & CLIMB",
+    "step4Desc": "Track your global ranking and in every league you join",
+    "tip": "SHARE YOUR LEAGUE CODE WITH FRIENDS AND COMPETE TOGETHER",
+    "cta": "LET'S GO!"
+  },
   "scoring": {
     "rules": "RULES",
     "title": "SCORING RULES",

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
-import { Table, Trophy, ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { Table, Trophy } from "@phosphor-icons/react/dist/ssr";
 import { getTranslations, getLocale } from "next-intl/server";
 
 import type { MatchStage } from "@prisma/client";
@@ -14,6 +14,8 @@ import MatchCard from "@/components/MatchCard";
 import CountryFlag from "@/components/CountryFlag";
 import AnimatedSection from "@/components/AnimatedSection";
 import GroupSelector from "./GroupSelector";
+import TournamentBracket from "@/components/TournamentBracket";
+import type { BracketMatch } from "@/components/TournamentBracket";
 import { GROUP_COLORS, KNOCKOUT_STAGES } from "./constants";
 
 type Props = {
@@ -32,7 +34,7 @@ export default async function GroupsPage({ searchParams }: Props) {
   const selectedGroup = (groupParam ?? "A").toUpperCase();
   const selectedStage = stageParam ?? "ROUND_OF_32";
 
-  const [user, teams, groupMatches, knockoutMatches] = await Promise.all([
+  const [user, teams, groupMatches, allKnockoutMatches] = await Promise.all([
     prisma.user.findUnique({
       where: { id: userId },
       select: { id: true, name: true, email: true, image: true, isAdmin: true },
@@ -51,8 +53,8 @@ export default async function GroupsPage({ searchParams }: Props) {
       : Promise.resolve([]),
     phase === "knockouts"
       ? prisma.match.findMany({
-          where: { stage: selectedStage as MatchStage },
-          orderBy: { matchDate: "asc" },
+          where: { stage: { not: "GROUP" as MatchStage } },
+          orderBy: [{ stage: "asc" }, { matchDate: "asc" }],
           include: {
             homeTeam: { select: { name: true, code: true, flagUrl: true } },
             awayTeam: { select: { name: true, code: true, flagUrl: true } },
@@ -60,6 +62,8 @@ export default async function GroupsPage({ searchParams }: Props) {
         })
       : Promise.resolve([]),
   ]);
+
+  const knockoutMatches = allKnockoutMatches.filter((m) => m.stage === selectedStage);
 
   if (!user) redirect("/login");
 
@@ -97,6 +101,17 @@ export default async function GroupsPage({ searchParams }: Props) {
     const sb = standingsMap.get(b.id)!;
     return sb.pts - sa.pts || sb.gd - sa.gd || sb.gf - sa.gf;
   });
+
+  // Group bracket matches by stage (single pass)
+  const bracketMap = new Map<string, BracketMatch[]>();
+  for (const m of allKnockoutMatches) {
+    const list = bracketMap.get(m.stage) ?? [];
+    list.push({
+      id: m.id, stage: m.stage, homeTeam: m.homeTeam, awayTeam: m.awayTeam,
+      homeScore: m.homeScore, awayScore: m.awayScore, penaltyWinner: m.penaltyWinner, status: m.status,
+    });
+    bracketMap.set(m.stage, list);
+  }
 
   const groupColor = GROUP_COLORS[selectedGroup] ?? { bg: "#36ffc4", text: "#000" };
   const stageData = KNOCKOUT_STAGES.find((s) => s.key === selectedStage);
@@ -383,37 +398,15 @@ export default async function GroupsPage({ searchParams }: Props) {
               </div>
             )}
 
-            {/* Road to the final */}
-            <div className="glass-card p-4 md:p-6 rounded-xl">
-              <p className="label-bold text-on-surface-variant tracking-widest mb-3 md:mb-4 text-[0.65rem] md:text-sm">
-                {t("roadToFinal")}
-              </p>
-              <div className="flex items-center gap-1 md:gap-3 flex-wrap md:flex-nowrap pb-2">
-                {KNOCKOUT_STAGES.map((s, i) => {
-                  const isActive = s.key === selectedStage;
-                  return (
-                    <div key={s.key} className="flex items-center gap-1 md:gap-3 shrink-0">
-                      <div
-                        className="px-1.5 md:px-4 py-1 md:py-2 rounded-lg text-center whitespace-nowrap text-[0.5rem] md:text-xs font-bold"
-                        style={
-                          isActive
-                            ? { background: s.bg, color: s.text }
-                            : { background: `${s.bg}15`, color: s.bg, border: `1px solid ${s.bg}30` }
-                        }
-                      >
-                        {t(s.label)}
-                      </div>
-                      {i < KNOCKOUT_STAGES.length - 1 && (
-                        <ArrowRight size={10} className="text-on-surface-variant shrink-0 md:hidden" />
-                      )}
-                      {i < KNOCKOUT_STAGES.length - 1 && (
-                        <ArrowRight size={14} className="text-on-surface-variant shrink-0 hidden md:block" />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            {/* Tournament bracket */}
+            <TournamentBracket
+              r32={bracketMap.get("ROUND_OF_32") ?? []}
+              r16={bracketMap.get("ROUND_OF_16") ?? []}
+              quarters={bracketMap.get("QUARTER") ?? []}
+              semis={bracketMap.get("SEMI") ?? []}
+              final={(bracketMap.get("FINAL") ?? [])[0] ?? null}
+              thirdPlace={(bracketMap.get("THIRD_PLACE") ?? [])[0] ?? null}
+            />
           </section>
           </AnimatedSection>
         )}

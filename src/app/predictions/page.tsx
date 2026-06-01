@@ -10,6 +10,7 @@ import BottomNav from "@/components/BottomNav";
 import MatchCard from "@/components/MatchCard";
 import AnimatedSection from "@/components/AnimatedSection";
 import ScoringRulesModal from "@/components/ScoringRulesModal";
+import HowToPlayModal from "@/components/HowToPlayModal";
 import PredictionTabs from "./PredictionTabs";
 
 export const metadata = { title: "Predictions — PRODEPT 2026" };
@@ -205,7 +206,10 @@ export default async function PredictionsPage() {
         {/* ── Tabs ────────────────────────────────────────────────────────── */}
         <AnimatedSection delay={0.15}>
           <div className="flex justify-end mb-3">
-            <ScoringRulesModal />
+            <div className="flex items-center gap-2">
+              <HowToPlayModal />
+              <ScoringRulesModal />
+            </div>
           </div>
           <PredictionTabs
             upcomingCount={scheduledMatches.length}
