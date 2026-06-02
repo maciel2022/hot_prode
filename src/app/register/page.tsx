@@ -21,14 +21,14 @@ export default async function RegisterPage() {
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
       </div>
 
-      <div className="glass-panel w-full max-w-md px-6 py-8 sm:px-8 sm:py-10 flex flex-col gap-6 relative z-10">
+      <div className="glass-panel w-full max-w-md px-6 py-5 sm:px-8 sm:py-6 flex flex-col gap-4 relative z-10">
         {/* Locale toggle */}
         <div className="absolute top-4 right-4">
           <LocaleToggle />
         </div>
 
         <div className="flex items-center justify-center gap-4">
-          <Image src="/logos/DEPT.png" alt="DEPT" width={48} height={48} className="h-10 w-auto brightness-0 invert" />
+          <Image src="/logos/DEPT.png" alt="Hot Prode" width={64} height={64} className="h-14 w-auto" />
           <span className="text-outline-variant text-2xl font-thin select-none" aria-hidden="true">&times;</span>
           <Image src="/logos/fifa_mundial_2026.png" alt="FIFA World Cup 2026" width={48} height={48} className="h-12 w-auto" />
         </div>
@@ -36,9 +36,13 @@ export default async function RegisterPage() {
         <div className="flex flex-col items-center gap-2">
           <Link href="/" className="flex items-center gap-2 no-underline">
             <span className="font-display text-on-surface tracking-widest" style={{ fontSize: "var(--text-headline-md)", lineHeight: 1 }}>
-              PRODEPT 2026
+              HOT PRODE 2026
             </span>
           </Link>
+          <div className="flex items-center gap-1.5">
+            <span className="text-on-surface-variant text-xs font-body">by</span>
+            <Image src="/logos/hotchillidevs.png" alt="HotChilliDevs" width={140} height={32} className="h-10 sm:h-12 w-auto" />
+          </div>
           <span className="bg-primary-container text-on-primary-container label-bold rounded-full px-3 py-1">
             {t("createAccountLabel")}
           </span>

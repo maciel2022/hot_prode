@@ -63,23 +63,30 @@ export default function Navbar({ user }: Props) {
       >
         <Image
           src="/logos/DEPT.png"
-          alt="DEPT"
+          alt="Hot Prode"
           width={32}
           height={32}
-          className="h-7 w-auto brightness-0 invert shrink-0"
+          className="h-7 sm:h-9 w-auto shrink-0"
         />
         <span
           className="text-headline-md font-display text-on-surface truncate hidden sm:inline"
           style={{ fontSize: "var(--text-headline-md)", lineHeight: 1 }}
         >
-          PRODEPT 2026
+          HOT PRODE 2026
         </span>
         <span
           className="text-headline-md font-display text-on-surface truncate sm:hidden"
           style={{ fontSize: "1.25rem", lineHeight: 1 }}
         >
-          PRODEPT
+          HOT PRODE
         </span>
+        <Image
+          src="/logos/hotchillidevs.png"
+          alt="HotChilliDevs"
+          width={140}
+          height={32}
+          className="h-6 w-auto shrink-0 hidden sm:inline"
+        />
       </Link>
 
       {/* Right side */}

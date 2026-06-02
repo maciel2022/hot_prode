@@ -29,7 +29,7 @@ export default async function LoginPage() {
       </div>
 
       {/* Card */}
-      <div className="glass-panel w-full max-w-md px-6 py-8 sm:px-8 sm:py-10 flex flex-col gap-6 relative z-10">
+      <div className="glass-panel w-full max-w-md px-6 py-5 sm:px-8 sm:py-6 flex flex-col gap-4 relative z-10">
         {/* Locale toggle */}
         <div className="absolute top-4 right-4">
           <LocaleToggle />
@@ -39,10 +39,10 @@ export default async function LoginPage() {
         <div className="flex items-center justify-center gap-4">
           <Image
             src="/logos/DEPT.png"
-            alt="DEPT"
-            width={48}
-            height={48}
-            className="h-10 w-auto brightness-0 invert"
+            alt="Hot Prode"
+            width={64}
+            height={64}
+            className="h-14 w-auto"
           />
           <span
             className="text-outline-variant text-2xl font-thin select-none"
@@ -69,9 +69,19 @@ export default async function LoginPage() {
                 lineHeight: 1,
               }}
             >
-              PRODEPT 2026
+              HOT PRODE 2026
             </span>
           </Link>
+          <div className="flex items-center gap-1.5">
+            <span className="text-on-surface-variant text-xs font-body">by</span>
+            <Image
+              src="/logos/hotchillidevs.png"
+              alt="HotChilliDevs"
+              width={140}
+              height={32}
+              className="h-10 sm:h-12 w-auto"
+            />
+          </div>
 
           <span className="bg-primary-container text-on-primary-container label-bold rounded-full px-3 py-1">
             {t("exclusiveAccess")}
