@@ -7,6 +7,7 @@ import { CaretDown, SignOut, ShieldStar, UserCircle, GlobeSimple } from "@phosph
 import { logoutAction } from "@/app/login/actions";
 import { useTranslations, useLocale } from "next-intl";
 import { setLocale } from "@/app/actions";
+import { isDiceBear } from "@/lib/avatar";
 
 type Props = {
   user?: { name: string; email: string; image?: string; isAdmin?: boolean } | null;
@@ -120,6 +121,7 @@ export default function Navbar({ user }: Props) {
                   src={user.image}
                   alt={user.name}
                   className="w-9 h-9 rounded-full object-cover border-2 border-primary-fixed"
+                  style={isDiceBear(user.image) ? { background: "var(--color-surface-container-high)" } : undefined}
                 />
               ) : (
                 <div

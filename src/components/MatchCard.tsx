@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SoccerBall, CheckCircle, XCircle, MinusCircle } from "@phosphor-icons/react";
+import { SoccerBall, CheckCircle, XCircle, MinusCircle, Clock, Circle } from "@phosphor-icons/react";
 import { formatMatchDate, formatStageLabel } from "@/lib/format";
 import CountryFlag from "@/components/CountryFlag";
 import { useTranslations, useLocale } from "next-intl";
@@ -71,7 +71,15 @@ export default function MatchCard({
 }: Props) {
   const t = useTranslations("match");
   const locale = useLocale();
-  const isFinished = status === "FINISHED";
+  const now = new Date();
+  const kickoff = new Date(matchDate);
+  const durationMs = stage === "GROUP" ? 2 * 60 * 60 * 1000 : 3 * 60 * 60 * 1000;
+  const matchEndTime = new Date(kickoff.getTime() + durationMs);
+
+  // DB status takes priority; time-based logic fills in when admin hasn't updated yet
+  const isFinished = status === "FINISHED" || (status !== "FINISHED" && now >= matchEndTime);
+  const isLive = !isFinished && (status === "LIVE" || now >= kickoff);
+  const isLocked = now >= kickoff;
   const stageLabel = formatStageLabel(stage, group, locale);
 
   return (
@@ -85,15 +93,38 @@ export default function MatchCard({
           {stageLabel}
         </span>
         <span
-          className={[
-            "label-bold px-2 py-0.5 md:px-3 md:py-1 rounded-full",
+          className="label-bold px-2 py-0.5 md:px-3 md:py-1 rounded-full flex items-center gap-1"
+          style={
             isFinished
-              ? "bg-surface-container-high text-on-surface-variant"
-              : "bg-secondary-container text-on-secondary-container",
-          ].join(" ")}
-          style={{ fontSize: "0.6875rem" }}
+              ? {
+                  fontSize: "0.6875rem",
+                  background: "rgba(229, 57, 53, 0.2)",
+                  color: "#ff6b6b",
+                  border: "1px solid rgba(229, 57, 53, 0.4)",
+                }
+              : isLive
+                ? {
+                    fontSize: "0.6875rem",
+                    background: "rgba(255, 210, 63, 0.2)",
+                    color: "#ffe066",
+                    border: "1px solid rgba(255, 210, 63, 0.4)",
+                  }
+                : {
+                    fontSize: "0.6875rem",
+                    background: "rgba(54, 255, 196, 0.12)",
+                    color: "var(--color-primary-fixed)",
+                    border: "1px solid rgba(54, 255, 196, 0.25)",
+                  }
+          }
         >
-          {isFinished ? t("finished") : t("scheduled")}
+          {isFinished ? (
+            <XCircle size={12} weight="fill" />
+          ) : isLive ? (
+            <Circle size={10} weight="fill" className="animate-pulse" />
+          ) : (
+            <Clock size={12} weight="fill" />
+          )}
+          {isFinished ? t("finished") : isLive ? t("live") : t("scheduled")}
         </span>
       </div>
 
@@ -234,7 +265,7 @@ export default function MatchCard({
       )}
 
       {/* Predict button */}
-      {showPredictButton && !isFinished && (
+      {showPredictButton && !isFinished && !isLocked && (
         <Link
           href={`/predictions/${matchId}`}
           className="mt-1 w-full flex items-center justify-center gap-2 rounded-xl py-2.5 md:py-3 text-on-primary font-bold label-bold transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] no-underline"

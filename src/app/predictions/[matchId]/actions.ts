@@ -32,16 +32,20 @@ export async function savePrediction(
   if (isNaN(awayScore) || awayScore < 0 || awayScore > 99)
     return { error: "Away score must be between 0 and 99." };
 
-  // ── 3. Verify match exists and is SCHEDULED ────────────────────────────────
+  // ── 3. Verify match exists and predictions are still open ───────────────────
   const match = await prisma.match.findUnique({
     where: { id: matchId },
-    select: { id: true, status: true, stage: true },
+    select: { id: true, status: true, stage: true, matchDate: true },
   });
 
   if (!match) return { error: "Match not found." };
 
   if (match.status !== "SCHEDULED") {
     return { error: "Predictions for this match are already closed." };
+  }
+
+  if (new Date() >= match.matchDate) {
+    return { error: "Predictions for this match are already closed. The match has started." };
   }
 
   // ── 3b. Handle penalty winner for knockout draws ──────────────────────────

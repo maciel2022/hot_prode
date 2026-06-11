@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import { SoccerBall } from "@phosphor-icons/react/dist/ssr";
+import { SoccerBall, Star, Target, CheckCircle } from "@phosphor-icons/react/dist/ssr";
 import { getTranslations } from "next-intl/server";
 
 import { auth } from "@/auth";
@@ -9,6 +9,7 @@ import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
 import MatchCard from "@/components/MatchCard";
 import AnimatedSection from "@/components/AnimatedSection";
+import StatsCard from "@/components/StatsCard";
 import ScoringRulesModal from "@/components/ScoringRulesModal";
 import HowToPlayModal from "@/components/HowToPlayModal";
 import PredictionTabs from "./PredictionTabs";
@@ -118,9 +119,48 @@ export default async function PredictionsPage() {
     </section>
   );
 
-  // ── 4. Build history content ───────────────────────────────────────────────
+  // ── 4. Compute stats for history ────────────────────────────────────────────
+  const finishedPredictions = finishedMatches
+    .map((m) => predictionMap.get(m.id))
+    .filter((p): p is NonNullable<typeof p> => p != null);
+  const totalPoints = finishedPredictions.reduce((sum, p) => sum + p.points, 0);
+  const exactScores = finishedPredictions.filter((p) => p.points >= 5).length;
+  const correctResults = finishedPredictions.filter((p) => p.points >= 3).length;
+  const accuracy = finishedPredictions.length > 0
+    ? Math.round((correctResults / finishedPredictions.length) * 100)
+    : 0;
+
+  // ── 5. Build history content ───────────────────────────────────────────────
   const historyContent = (
-    <section className="space-y-3">
+    <section className="space-y-4">
+      {finishedMatches.length > 0 && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <StatsCard
+            icon={<Star size={22} weight="fill" />}
+            label={t("totalPoints")}
+            value={totalPoints}
+            subtitle={t("earned")}
+          />
+          <StatsCard
+            icon={<Target size={22} weight="fill" />}
+            label={t("accuracy")}
+            value={`${accuracy}%`}
+            subtitle={`${correctResults}/${finishedPredictions.length}`}
+          />
+          <StatsCard
+            icon={<SoccerBall size={22} weight="fill" />}
+            label={t("exactScores")}
+            value={exactScores}
+            subtitle={t("perfect")}
+          />
+          <StatsCard
+            icon={<CheckCircle size={22} weight="fill" />}
+            label={t("matchesPlayed")}
+            value={finishedPredictions.length}
+            subtitle={t("predicted")}
+          />
+        </div>
+      )}
       {finishedMatches.length === 0 ? (
         <div className="glass-card p-4 md:p-6 text-center">
           <p

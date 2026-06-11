@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
 import AnimatedSection from "@/components/AnimatedSection";
+import { isDiceBear } from "@/lib/avatar";
 import LeaguePicker from "./LeaguePicker";
 
 export const metadata = { title: "Leaderboard — PRODEPT 2026" };
@@ -165,7 +166,12 @@ export default async function LeaderboardPage({ searchParams }: Props) {
         {/* League picker */}
         {leagues.length > 0 && (
           <AnimatedSection delay={0.1}>
-            <LeaguePicker leagues={leagues} />
+            <section className="space-y-2">
+              <h2 className="label-bold text-on-surface-variant uppercase tracking-widest">
+                {t("filterByLeague")}
+              </h2>
+              <LeaguePicker leagues={leagues} />
+            </section>
           </AnimatedSection>
         )}
 
@@ -208,7 +214,10 @@ export default async function LeaderboardPage({ searchParams }: Props) {
                           src={entry.image}
                           alt={entry.name}
                           className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover border-2"
-                          style={{ borderColor: podium?.color ?? "var(--color-outline-variant)" }}
+                          style={{
+                            borderColor: podium?.color ?? "var(--color-outline-variant)",
+                            ...(isDiceBear(entry.image) ? { background: "var(--color-surface-container-high)" } : {}),
+                          }}
                         />
                       ) : (
                         <div

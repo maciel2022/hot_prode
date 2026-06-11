@@ -12,11 +12,14 @@ import { getTranslations, getLocale } from "next-intl/server";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { isDiceBear } from "@/lib/avatar";
 import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
 import AnimatedSection from "@/components/AnimatedSection";
 import StatsCard from "@/components/StatsCard";
 import CountryFlag from "@/components/CountryFlag";
+import EditNameForm from "./EditNameForm";
+import EmojiPicker from "./EmojiPicker";
 
 export const metadata = { title: "Profile — PRODEPT 2026" };
 
@@ -115,6 +118,7 @@ export default async function ProfilePage() {
                   src={user.image}
                   alt={user.name}
                   className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-3 border-primary-fixed"
+                  style={isDiceBear(user.image) ? { background: "var(--color-surface-container-high)" } : undefined}
                 />
               ) : (
                 <div
@@ -127,13 +131,15 @@ export default async function ProfilePage() {
                   {getInitials(user.name)}
                 </div>
               )}
-              <div>
+              <EmojiPicker currentImage={user.image} userName={user.name} />
+              <div className="flex flex-col items-center gap-1">
                 <h1
                   className="font-display text-on-surface"
                   style={{ fontSize: "var(--text-headline-md)", lineHeight: 1.2 }}
                 >
                   {user.name}
                 </h1>
+                <EditNameForm currentName={user.name} />
                 <p
                   className="text-on-surface-variant mt-1"
                   style={{ fontSize: "var(--text-body-md)" }}

@@ -43,7 +43,14 @@
     "correctResult": "Correct result",
     "winnerBonus": "Winner bonus",
     "correctDiff": "Correct difference",
-    "wrong": "Wrong"
+    "wrong": "Wrong",
+    "totalPoints": "Total Points",
+    "earned": "earned",
+    "accuracy": "Accuracy",
+    "exactScores": "Exact Scores",
+    "perfect": "perfect",
+    "matchesPlayed": "Matches",
+    "predicted": "predicted"
   },
   "predictionDetail": {
     "back": "Back",
@@ -73,7 +80,8 @@
     "picks": "picks",
     "pts": "pts",
     "you": "YOU",
-    "global": "Global"
+    "global": "Global",
+    "filterByLeague": "YOUR LEAGUES"
   },
   "leagues": {
     "topLabel": "FIFA WORLD CUP 2026",
@@ -87,7 +95,7 @@
     "privateLeague": "Private League",
     "yourRank": "your rank",
     "totalPoints": "TOTAL POINTS",
-    "currentRound": "CURRENT ROUND",
+    "members": "MEMBERS",
     "inviteCode": "Invite code:",
     "standings": "STANDINGS",
     "noLeagues": "You don't belong to any league yet.",
@@ -112,6 +120,9 @@
     "leave": "Leave",
     "leaveConfirm": "Leave {name}?",
     "leaving": "LEAVING...",
+    "delete": "Delete",
+    "deleteConfirm": "Delete {name}? This will remove the league and all its members.",
+    "deleting": "DELETING...",
     "confirm": "CONFIRM",
     "cancel": "CANCEL"
   },
@@ -155,7 +166,13 @@
     "noPredictions": "No predictions yet. Make your first prediction!",
     "vs": "vs",
     "pending": "PENDING",
-    "memberSince": "Member since {date}"
+    "memberSince": "Member since {date}",
+    "editName": "Edit name",
+    "save": "SAVE",
+    "saving": "SAVING...",
+    "cancel": "CANCEL",
+    "changeAvatar": "Change avatar",
+    "pickAvatar": "PICK YOUR STYLE"
   },
   "admin": {
     "topLabel": "ADMIN PANEL",
@@ -218,6 +235,7 @@
   },
   "match": {
     "finished": "FINISHED",
+    "live": "LIVE",
     "scheduled": "UPCOMING",
     "myPick": "My pick",
     "pen": "pen.",

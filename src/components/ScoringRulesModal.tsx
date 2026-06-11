@@ -47,9 +47,10 @@ export default function ScoringRulesModal() {
         onClick={() => setOpen(true)}
         className="flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1 md:py-1.5 rounded-full label-bold tracking-widest text-[0.6rem] md:text-xs transition-all hover:opacity-80"
         style={{
-          background: "rgba(255, 210, 63, 0.15)",
-          color: "#ffd23f",
-          border: "1px solid rgba(255, 210, 63, 0.3)",
+          background: "rgba(255, 210, 63, 0.22)",
+          color: "#ffe066",
+          border: "1px solid rgba(255, 210, 63, 0.5)",
+          boxShadow: "0 0 8px rgba(255, 210, 63, 0.2)",
         }}
       >
         <Info size={14} weight="fill" className="md:hidden" />

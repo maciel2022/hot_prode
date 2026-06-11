@@ -12,6 +12,7 @@ import AnimatedSection from "@/components/AnimatedSection";
 import CreateLeagueModal from "./CreateLeagueModal";
 import JoinLeagueModal from "./JoinLeagueModal";
 import LeaveLeagueButton from "./LeaveLeagueButton";
+import DeleteLeagueButton from "./DeleteLeagueButton";
 
 export default async function LeaguesPage() {
   // ── 1. Auth guard ────────────────────────────────────────────────────────────
@@ -65,6 +66,7 @@ export default async function LeaguesPage() {
     name: string;
     code: string;
     isGlobal: boolean;
+    ownerId: string;
     members: MemberEntry[];
     myPoints: number;
     myRank: number;
@@ -88,6 +90,7 @@ export default async function LeaguesPage() {
       name: league.name,
       code: league.code,
       isGlobal: league.isGlobal,
+      ownerId: league.ownerId,
       members,
       myPoints,
       myRank,
@@ -257,15 +260,15 @@ export default async function LeaguesPage() {
                         className="label-bold text-on-surface-variant tracking-widest"
                         style={{ fontSize: "0.625rem" }}
                       >
-                        {t("currentRound")}
+                        {t("members")}
                       </p>
                       <p
-                        className="font-display text-on-surface-variant tabular-nums leading-none"
+                        className="font-display text-primary-fixed tabular-nums leading-none"
                         style={{
                           fontSize: "var(--text-headline-md)",
                         }}
                       >
-                        —
+                        {league.members.length}
                       </p>
                     </div>
                   </div>
@@ -291,10 +294,14 @@ export default async function LeaguesPage() {
                     </div>
                   )}
 
-                  {/* Leave league (private only) */}
+                  {/* Leave / Delete league (private only) */}
                   {!league.isGlobal && (
-                    <div className="flex justify-end">
-                      <LeaveLeagueButton leagueId={league.id} leagueName={league.name} />
+                    <div className="flex justify-end gap-2">
+                      {league.ownerId === currentUserId ? (
+                        <DeleteLeagueButton leagueId={league.id} leagueName={league.name} />
+                      ) : (
+                        <LeaveLeagueButton leagueId={league.id} leagueName={league.name} />
+                      )}
                     </div>
                   )}
 

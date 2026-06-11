@@ -43,9 +43,10 @@ export default function HowToPlayModal() {
         onClick={() => setOpen(true)}
         className="flex items-center gap-1 md:gap-1.5 px-2 md:px-3 py-1 md:py-1.5 rounded-full label-bold tracking-widest text-[0.6rem] md:text-xs transition-all hover:opacity-80"
         style={{
-          background: "rgba(229, 57, 53, 0.15)",
-          color: "#e53935",
-          border: "1px solid rgba(229, 57, 53, 0.3)",
+          background: "rgba(255, 82, 82, 0.28)",
+          color: "#ff6b6b",
+          border: "1px solid rgba(255, 82, 82, 0.6)",
+          boxShadow: "0 0 12px rgba(255, 82, 82, 0.3)",
         }}
       >
         <Question size={14} weight="fill" className="md:hidden" />

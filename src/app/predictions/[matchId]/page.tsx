@@ -57,7 +57,7 @@ export default async function PredictionMatchPage({ params }: Props) {
   const t = await getTranslations("predictionDetail");
   const locale = await getLocale();
 
-  const isClosed = match.status === "FINISHED" || match.status === "LIVE";
+  const isClosed = match.status === "FINISHED" || match.status === "LIVE" || new Date() >= match.matchDate;
   const stageLabel = formatStageLabel(match.stage, match.group, locale);
 
   return (

@@ -43,7 +43,14 @@
     "correctResult": "Resultado correcto",
     "winnerBonus": "Bonus ganador",
     "correctDiff": "Diferencia correcta",
-    "wrong": "Incorrecto"
+    "wrong": "Incorrecto",
+    "totalPoints": "Puntos Totales",
+    "earned": "ganados",
+    "accuracy": "Precisión",
+    "exactScores": "Exactos",
+    "perfect": "perfectos",
+    "matchesPlayed": "Partidos",
+    "predicted": "predichos"
   },
   "predictionDetail": {
     "back": "Volver",
@@ -73,7 +80,8 @@
     "picks": "predicciones",
     "pts": "pts",
     "you": "VOS",
-    "global": "Global"
+    "global": "Global",
+    "filterByLeague": "TUS LIGAS"
   },
   "leagues": {
     "topLabel": "COPA MUNDIAL FIFA 2026",
@@ -87,7 +95,7 @@
     "privateLeague": "Liga Privada",
     "yourRank": "tu puesto",
     "totalPoints": "PUNTOS TOTALES",
-    "currentRound": "RONDA ACTUAL",
+    "members": "MIEMBROS",
     "inviteCode": "Código de invitación:",
     "standings": "POSICIONES",
     "noLeagues": "Aún no pertenecés a ninguna liga.",
@@ -112,6 +120,9 @@
     "leave": "Salir",
     "leaveConfirm": "¿Salir de {name}?",
     "leaving": "SALIENDO...",
+    "delete": "Eliminar",
+    "deleteConfirm": "¿Eliminar {name}? Se eliminará la liga y todos sus miembros.",
+    "deleting": "ELIMINANDO...",
     "confirm": "CONFIRMAR",
     "cancel": "CANCELAR"
   },
@@ -155,7 +166,13 @@
     "noPredictions": "Aún no hiciste predicciones. ¡Hacé tu primera predicción!",
     "vs": "vs",
     "pending": "PENDIENTE",
-    "memberSince": "Miembro desde {date}"
+    "memberSince": "Miembro desde {date}",
+    "editName": "Editar nombre",
+    "save": "GUARDAR",
+    "saving": "GUARDANDO...",
+    "cancel": "CANCELAR",
+    "changeAvatar": "Cambiar avatar",
+    "pickAvatar": "ELEGÍ TU ESTILO"
   },
   "admin": {
     "topLabel": "PANEL ADMIN",
@@ -218,6 +235,7 @@
   },
   "match": {
     "finished": "FINALIZADO",
+    "live": "EN VIVO",
     "scheduled": "PRÓXIMAMENTE",
     "myPick": "Mi predicción",
     "pen": "pen.",

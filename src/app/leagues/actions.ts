@@ -157,6 +157,39 @@ export async function joinLeague(
   return {};
 }
 
+// ── Delete League ────────────────────────────────────────────────────────────
+
+export async function deleteLeague(
+  formData: FormData
+): Promise<{ error?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) redirect("/login");
+  const userId = session.user.id;
+
+  const leagueId = formData.get("leagueId") as string;
+  if (!leagueId) return { error: "Invalid league." };
+
+  const league = await prisma.league.findUnique({
+    where: { id: leagueId },
+    select: { isGlobal: true, ownerId: true },
+  });
+
+  if (!league) return { error: "League not found." };
+  if (league.isGlobal) return { error: "Cannot delete the main league." };
+  if (league.ownerId !== userId) return { error: "Only the owner can delete this league." };
+
+  try {
+    await prisma.league.delete({
+      where: { id: leagueId },
+    });
+  } catch {
+    return { error: "Could not delete the league. Please try again." };
+  }
+
+  revalidatePath("/leagues");
+  return {};
+}
+
 // ── Leave League ─────────────────────────────────────────────────────────────
 
 export async function leaveLeague(

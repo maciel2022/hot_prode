@@ -149,7 +149,7 @@ model LeagueMember {
   userId   String
   joinedAt DateTime @default(now())
 
-  league League @relation(fields: [leagueId], references: [id])
+  league League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id])
 
   @@unique([leagueId, userId])
