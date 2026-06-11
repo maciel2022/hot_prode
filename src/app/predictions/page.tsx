@@ -35,7 +35,7 @@ export default async function PredictionsPage() {
           OR: [
             { status: "SCHEDULED" },
             // Special exception: first match stays open even when LIVE
-            { id: "cmpjv3s32001dxndp0u0y8ril", status: "LIVE" },
+            { id: "cmq9r6vdu001dxnofh530h4su", status: "LIVE" },
           ],
         },
         orderBy: { matchDate: "asc" },

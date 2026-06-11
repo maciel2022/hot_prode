@@ -80,7 +80,7 @@ export default function MatchCard({
   const isFinished = status === "FINISHED" || (status !== "FINISHED" && now >= matchEndTime);
   const isLive = !isFinished && (status === "LIVE" || now >= kickoff);
   // Special exception: first match allows predictions until 10 min before end
-  const FIRST_MATCH_ID = "cmpjv3s32001dxndp0u0y8ril";
+  const FIRST_MATCH_ID = "cmq9r6vdu001dxnofh530h4su";
   const isFirstMatch = matchId === FIRST_MATCH_ID;
   const isLocked = isFirstMatch
     ? now >= new Date(kickoff.getTime() + 110 * 60 * 1000)

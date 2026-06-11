@@ -41,7 +41,7 @@ export async function savePrediction(
   if (!match) return { error: "Match not found." };
 
   // ── Special exception: first match allows predictions until 10 min before end
-  const FIRST_MATCH_ID = "cmpjv3s32001dxndp0u0y8ril";
+  const FIRST_MATCH_ID = "cmq9r6vdu001dxnofh530h4su";
   const isFirstMatch = match.id === FIRST_MATCH_ID;
 
   if (isFirstMatch) {

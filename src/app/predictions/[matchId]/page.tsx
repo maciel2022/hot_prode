@@ -58,7 +58,7 @@ export default async function PredictionMatchPage({ params }: Props) {
   const locale = await getLocale();
 
   // Special exception: first match allows predictions until 10 min before end
-  const FIRST_MATCH_ID = "cmpjv3s32001dxndp0u0y8ril";
+  const FIRST_MATCH_ID = "cmq9r6vdu001dxnofh530h4su";
   const isFirstMatch = match.id === FIRST_MATCH_ID;
   const isClosed = isFirstMatch
     ? match.status === "FINISHED" || new Date() >= new Date(match.matchDate.getTime() + 110 * 60 * 1000)
