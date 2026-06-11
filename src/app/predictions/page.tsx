@@ -133,7 +133,7 @@ export default async function PredictionsPage() {
   // ── 5. Build history content ───────────────────────────────────────────────
   const historyContent = (
     <section className="space-y-4">
-      {finishedMatches.length > 0 && (
+      {(
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <StatsCard
             icon={<Star size={22} weight="fill" />}
