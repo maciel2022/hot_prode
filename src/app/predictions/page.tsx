@@ -31,7 +31,13 @@ export default async function PredictionsPage() {
       }),
 
       prisma.match.findMany({
-        where: { status: "SCHEDULED" },
+        where: {
+          OR: [
+            { status: "SCHEDULED" },
+            // Special exception: first match stays open even when LIVE
+            { id: "cmpjv3s32001dxndp0u0y8ril", status: "LIVE" },
+          ],
+        },
         orderBy: { matchDate: "asc" },
         include: {
           homeTeam: { select: { name: true, code: true, flagUrl: true } },

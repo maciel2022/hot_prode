@@ -57,7 +57,12 @@ export default async function PredictionMatchPage({ params }: Props) {
   const t = await getTranslations("predictionDetail");
   const locale = await getLocale();
 
-  const isClosed = match.status === "FINISHED" || match.status === "LIVE" || new Date() >= match.matchDate;
+  // Special exception: first match allows predictions until 10 min before end
+  const FIRST_MATCH_ID = "cmpjv3s32001dxndp0u0y8ril";
+  const isFirstMatch = match.id === FIRST_MATCH_ID;
+  const isClosed = isFirstMatch
+    ? match.status === "FINISHED" || new Date() >= new Date(match.matchDate.getTime() + 110 * 60 * 1000)
+    : match.status === "FINISHED" || match.status === "LIVE" || new Date() >= match.matchDate;
   const stageLabel = formatStageLabel(match.stage, match.group, locale);
 
   return (

@@ -79,7 +79,12 @@ export default function MatchCard({
   // DB status takes priority; time-based logic fills in when admin hasn't updated yet
   const isFinished = status === "FINISHED" || (status !== "FINISHED" && now >= matchEndTime);
   const isLive = !isFinished && (status === "LIVE" || now >= kickoff);
-  const isLocked = now >= kickoff;
+  // Special exception: first match allows predictions until 10 min before end
+  const FIRST_MATCH_ID = "cmpjv3s32001dxndp0u0y8ril";
+  const isFirstMatch = matchId === FIRST_MATCH_ID;
+  const isLocked = isFirstMatch
+    ? now >= new Date(kickoff.getTime() + 110 * 60 * 1000)
+    : now >= kickoff;
   const stageLabel = formatStageLabel(stage, group, locale);
 
   return (

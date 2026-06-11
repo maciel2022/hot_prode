@@ -40,12 +40,24 @@ export async function savePrediction(
 
   if (!match) return { error: "Match not found." };
 
-  if (match.status !== "SCHEDULED") {
-    return { error: "Predictions for this match are already closed." };
-  }
+  // ── Special exception: first match allows predictions until 10 min before end
+  const FIRST_MATCH_ID = "cmpjv3s32001dxndp0u0y8ril";
+  const isFirstMatch = match.id === FIRST_MATCH_ID;
 
-  if (new Date() >= match.matchDate) {
-    return { error: "Predictions for this match are already closed. The match has started." };
+  if (isFirstMatch) {
+    // Allow predictions until 10 minutes before match ends (kickoff + 110 min)
+    const matchEndMinus10 = new Date(match.matchDate.getTime() + 110 * 60 * 1000);
+    if (match.status === "FINISHED" || new Date() >= matchEndMinus10) {
+      return { error: "Predictions for this match are already closed." };
+    }
+  } else {
+    if (match.status !== "SCHEDULED") {
+      return { error: "Predictions for this match are already closed." };
+    }
+
+    if (new Date() >= match.matchDate) {
+      return { error: "Predictions for this match are already closed. The match has started." };
+    }
   }
 
   // ── 3b. Handle penalty winner for knockout draws ──────────────────────────
