@@ -14,7 +14,7 @@ import ScoringRulesModal from "@/components/ScoringRulesModal";
 import HowToPlayModal from "@/components/HowToPlayModal";
 import PredictionTabs from "./PredictionTabs";
 
-export const metadata = { title: "Predictions — PRODEPT 2026" };
+export const metadata = { title: "Predictions — HOT PRODE 2026" };
 
 export default async function PredictionsPage() {
   // ── 1. Auth guard ──────────────────────────────────────────────────────────

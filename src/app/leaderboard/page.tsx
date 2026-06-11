@@ -11,7 +11,7 @@ import AnimatedSection from "@/components/AnimatedSection";
 import { isDiceBear } from "@/lib/avatar";
 import LeaguePicker from "./LeaguePicker";
 
-export const metadata = { title: "Leaderboard — PRODEPT 2026" };
+export const metadata = { title: "Leaderboard — HOT PRODE 2026" };
 
 type Props = {
   searchParams: Promise<{ league?: string }>;

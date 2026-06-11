@@ -9,10 +9,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "PRODEPT 2026",
+  title: "HOT PRODE 2026",
   description:
     "Make your World Cup 2026 predictions. Compete with colleagues, follow the results and prove you know football.",
-  keywords: ["World Cup 2026", "predictions", "football", "soccer", "DEPT"],
+  keywords: ["World Cup 2026", "predictions", "football", "soccer", "Hot Prode", "HotChilliDevs"],
 };
 
 export default async function RootLayout({

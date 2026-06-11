@@ -21,7 +21,7 @@ import CountryFlag from "@/components/CountryFlag";
 import EditNameForm from "./EditNameForm";
 import EmojiPicker from "./EmojiPicker";
 
-export const metadata = { title: "Profile — PRODEPT 2026" };
+export const metadata = { title: "Profile — HOT PRODE 2026" };
 
 export default async function ProfilePage() {
   const session = await auth();

@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import LocaleToggle from "@/components/LocaleToggle";
 import RegisterForm from "./RegisterForm";
 
-export const metadata = { title: "Create Account — PRODEPT 2026" };
+export const metadata = { title: "Create Account — HOT PRODE 2026" };
 
 export default async function RegisterPage() {
   const session = await auth();

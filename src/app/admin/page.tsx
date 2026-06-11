@@ -9,7 +9,7 @@ import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
 import MatchAdminCard from "./MatchAdminCard";
 
-export const metadata = { title: "Admin — PRODEPT 2026" };
+export const metadata = { title: "Admin — HOT PRODE 2026" };
 
 export default async function AdminPage() {
   const session = await auth();

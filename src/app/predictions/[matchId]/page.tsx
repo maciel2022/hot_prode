@@ -11,7 +11,7 @@ import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
 import PredictionForm from "./PredictionForm";
 
-export const metadata = { title: "Prediction — PRODEPT 2026" };
+export const metadata = { title: "Prediction — HOT PRODE 2026" };
 
 type Props = {
   params: Promise<{ matchId: string }>;

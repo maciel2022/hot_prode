@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import LocaleToggle from "@/components/LocaleToggle";
 import LoginForm from "./LoginForm";
 
-export const metadata = { title: "Sign In — PRODEPT 2026" };
+export const metadata = { title: "Sign In — HOT PRODE 2026" };
 
 export default async function LoginPage() {
   const session = await auth();
