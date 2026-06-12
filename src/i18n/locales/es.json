@@ -66,7 +66,9 @@
     "penaltyQuestion": "¿QUIÉN GANA EN PENALES?",
     "lockingIn": "GUARDANDO...",
     "lockItIn": "CONFIRMAR",
-    "goalsAria": "Goles {team}"
+    "goalsAria": "Goles {team}",
+    "saved": "¡Predicción guardada!",
+    "allDone": "¡Todos los partidos predichos!"
   },
   "leaderboard": {
     "topLabel": "COPA MUNDIAL FIFA 2026",

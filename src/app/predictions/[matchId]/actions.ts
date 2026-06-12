@@ -1,6 +1,6 @@
 "use server";
 
-import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 
@@ -95,6 +95,7 @@ export async function savePrediction(
     },
   });
 
-  // ── 5. Redirect back to predictions list ───────────────────────────────────
-  redirect("/predictions");
+  // ── 5. Revalidate and return success ────────────────────────────────────────
+  revalidatePath("/predictions");
+  return { success: true };
 }

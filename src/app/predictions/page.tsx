@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import Navbar from "@/components/Navbar";
 import BottomNav from "@/components/BottomNav";
 import MatchCard from "@/components/MatchCard";
+import UpcomingMatchList from "./UpcomingMatchList";
 import AnimatedSection from "@/components/AnimatedSection";
 import StatsCard from "@/components/StatsCard";
 import ScoringRulesModal from "@/components/ScoringRulesModal";
@@ -86,42 +87,37 @@ export default async function PredictionsPage() {
   );
 
   // ── 3. Build upcoming content ──────────────────────────────────────────────
+  const serializedMatches = scheduledMatches.map((match) => ({
+    id: match.id,
+    homeTeam: { name: match.homeTeam.name, code: match.homeTeam.code },
+    awayTeam: { name: match.awayTeam.name, code: match.awayTeam.code },
+    matchDate: match.matchDate.toISOString(),
+    stage: match.stage,
+    group: match.group,
+    status: match.status,
+    homeScore: match.homeScore,
+    awayScore: match.awayScore,
+    penaltyWinner: match.penaltyWinner,
+  }));
+
+  const serializedPredictions: Record<string, { homeScore: number; awayScore: number; penaltyWinner?: string | null }> = {};
+  for (const match of scheduledMatches) {
+    const pred = predictionMap.get(match.id);
+    if (pred) {
+      serializedPredictions[match.id] = {
+        homeScore: pred.homeScore,
+        awayScore: pred.awayScore,
+        penaltyWinner: pred.penaltyWinner,
+      };
+    }
+  }
+
   const upcomingContent = (
     <section className="space-y-3">
-      {scheduledMatches.length === 0 ? (
-        <div className="glass-card p-4 md:p-6 text-center">
-          <SoccerBall size={40} className="text-on-surface-variant mx-auto" />
-          <p
-            className="mt-2 text-on-surface-variant"
-            style={{ fontSize: "var(--text-label-bold)" }}
-          >
-            {t("noUpcoming")}
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-          {scheduledMatches.map((match) => {
-            const pred = predictionMap.get(match.id);
-            return (
-              <MatchCard
-                key={match.id}
-                matchId={match.id}
-                homeTeam={{ name: match.homeTeam.name, code: match.homeTeam.code }}
-                awayTeam={{ name: match.awayTeam.name, code: match.awayTeam.code }}
-                matchDate={match.matchDate}
-                stage={match.stage}
-                group={match.group}
-                status={match.status}
-                homeScore={match.homeScore}
-                awayScore={match.awayScore}
-                showPredictButton
-                penaltyWinner={match.penaltyWinner}
-                prediction={pred ? { homeScore: pred.homeScore, awayScore: pred.awayScore, penaltyWinner: pred.penaltyWinner } : null}
-              />
-            );
-          })}
-        </div>
-      )}
+      <UpcomingMatchList
+        matches={serializedMatches}
+        predictions={serializedPredictions}
+      />
     </section>
   );
 

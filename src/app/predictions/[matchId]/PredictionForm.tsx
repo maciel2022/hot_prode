@@ -1,10 +1,12 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
+import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { translateCountry } from "@/lib/countries";
 import { Trophy } from "@phosphor-icons/react/dist/ssr";
+import { showToast } from "nextjs-toast-notify";
 import { savePrediction } from "./actions";
 import CountryFlag from "@/components/CountryFlag";
 
@@ -69,10 +71,24 @@ export default function PredictionForm({
 }: Props) {
   const t = useTranslations("predictionDetail");
   const locale = useLocale();
+  const router = useRouter();
   const [state, formAction] = useActionState(savePrediction, initialState);
   const [homeScore, setHomeScore] = useState(initialHomeScore?.toString() ?? "");
   const [awayScore, setAwayScore] = useState(initialAwayScore?.toString() ?? "");
   const [penaltyWinner, setPenaltyWinner] = useState<string | null>(initialPenaltyWinner ?? null);
+  const successHandled = useRef(false);
+
+  useEffect(() => {
+    if (state?.success && !successHandled.current) {
+      successHandled.current = true;
+      showToast.success(t("saved"), {
+        duration: 4000,
+        position: "bottom-right",
+        transition: "swingInverted",
+      });
+      router.push("/predictions");
+    }
+  }, [state?.success, t, router]);
 
   const isDraw = homeScore !== "" && awayScore !== "" && homeScore === awayScore;
   const showPenaltyPicker = isKnockout && isDraw;
