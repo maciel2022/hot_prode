@@ -145,26 +145,40 @@ export default async function HomePage() {
           </div>
 
           {nextMatch ? (
-            <MatchCard
-              matchId={nextMatch.id}
-              homeTeam={{
-                name: nextMatch.homeTeam.name,
-                code: nextMatch.homeTeam.code,
-              }}
-              awayTeam={{
-                name: nextMatch.awayTeam.name,
-                code: nextMatch.awayTeam.code,
-              }}
-              matchDate={nextMatch.matchDate}
-              stage={nextMatch.stage}
-              group={nextMatch.group}
-              status={nextMatch.status}
-              homeScore={nextMatch.homeScore}
-              awayScore={nextMatch.awayScore}
-              penaltyWinner={nextMatch.penaltyWinner}
-              showPredictButton
-              prediction={nextMatchPrediction ?? null}
-            />
+            <>
+              <MatchCard
+                matchId={nextMatch.id}
+                homeTeam={{
+                  name: nextMatch.homeTeam.name,
+                  code: nextMatch.homeTeam.code,
+                }}
+                awayTeam={{
+                  name: nextMatch.awayTeam.name,
+                  code: nextMatch.awayTeam.code,
+                }}
+                matchDate={nextMatch.matchDate}
+                stage={nextMatch.stage}
+                group={nextMatch.group}
+                status={nextMatch.status}
+                homeScore={nextMatch.homeScore}
+                awayScore={nextMatch.awayScore}
+                penaltyWinner={nextMatch.penaltyWinner}
+                prediction={nextMatchPrediction ?? null}
+              />
+              {!nextMatchPrediction && (
+                <Link
+                  href="/predictions"
+                  className="mt-2 w-full flex items-center justify-center gap-2 rounded-xl py-2.5 md:py-3 font-bold label-bold transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] no-underline"
+                  style={{
+                    background: "linear-gradient(135deg, var(--color-primary-fixed) 0%, var(--color-primary-fixed-dim) 100%)",
+                    color: "#003d2e",
+                  }}
+                >
+                  <SoccerBall size={18} weight="fill" />
+                  {t("makeYourPick")}
+                </Link>
+              )}
+            </>
           ) : (
             <div className="glass-card p-4 md:p-6 text-center">
               <SoccerBall size={40} className="text-on-surface-variant mx-auto" />
