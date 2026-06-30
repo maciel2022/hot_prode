@@ -42,12 +42,12 @@ function Slot({
     finished &&
     match &&
     (match.homeScore! > match.awayScore! ||
-      (match.homeScore === match.awayScore && match.penaltyWinner === match.homeTeam.code));
+      (match.homeScore === match.awayScore && match.penaltyWinner === "home"));
   const awayWin =
     finished &&
     match &&
     (match.awayScore! > match.homeScore! ||
-      (match.homeScore === match.awayScore && match.penaltyWinner === match.awayTeam.code));
+      (match.homeScore === match.awayScore && match.penaltyWinner === "away"));
 
   const border = mirror
     ? { borderRight: `2px solid ${color}` }

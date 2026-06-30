@@ -125,9 +125,79 @@ export async function submitMatchResult(
     recalculated++;
   }
 
+  // Advance the bracket: write this match's winner (or loser) into the
+  // next-round slots that are fed by it.
+  if (isKnockout) {
+    await advanceBracket(matchId);
+  }
+
   revalidatePath("/admin");
   revalidatePath("/predictions");
   revalidatePath("/leagues");
+  revalidatePath("/groups");
   revalidatePath("/");
   return { recalculated };
+}
+
+// ── Bracket auto-advance ───────────────────────────────────────────────────
+// When a knockout match finishes, propagate its winner (and, for the
+// third-place match, the semifinal losers) into the matches that reference it
+// as a source. Re-running on an edited result simply overwrites the slot.
+
+async function advanceBracket(matchId: string): Promise<void> {
+  const match = await prisma.match.findUnique({
+    where: { id: matchId },
+    select: {
+      homeTeamId: true,
+      awayTeamId: true,
+      homeScore: true,
+      awayScore: true,
+      penaltyWinner: true,
+    },
+  });
+  if (!match || match.homeScore == null || match.awayScore == null) return;
+
+  let winnerId: string;
+  let loserId: string;
+  if (match.homeScore > match.awayScore) {
+    winnerId = match.homeTeamId;
+    loserId = match.awayTeamId;
+  } else if (match.awayScore > match.homeScore) {
+    winnerId = match.awayTeamId;
+    loserId = match.homeTeamId;
+  } else if (match.penaltyWinner === "home") {
+    winnerId = match.homeTeamId;
+    loserId = match.awayTeamId;
+  } else if (match.penaltyWinner === "away") {
+    winnerId = match.awayTeamId;
+    loserId = match.homeTeamId;
+  } else {
+    return; // draw with no penalty winner — cannot resolve
+  }
+
+  const dependents = await prisma.match.findMany({
+    where: {
+      OR: [{ homeSourceMatchId: matchId }, { awaySourceMatchId: matchId }],
+    },
+    select: {
+      id: true,
+      homeSourceMatchId: true,
+      awaySourceMatchId: true,
+      homeSourceType: true,
+      awaySourceType: true,
+    },
+  });
+
+  for (const dep of dependents) {
+    const data: { homeTeamId?: string; awayTeamId?: string } = {};
+    if (dep.homeSourceMatchId === matchId) {
+      data.homeTeamId = dep.homeSourceType === "LOSER" ? loserId : winnerId;
+    }
+    if (dep.awaySourceMatchId === matchId) {
+      data.awayTeamId = dep.awaySourceType === "LOSER" ? loserId : winnerId;
+    }
+    if (data.homeTeamId || data.awayTeamId) {
+      await prisma.match.update({ where: { id: dep.id }, data });
+    }
+  }
 }

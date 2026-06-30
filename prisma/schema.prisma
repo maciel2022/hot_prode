@@ -110,6 +110,14 @@ model Match {
   venue         String
   status        MatchStatus @default(SCHEDULED)
 
+  // Bracket feeder links — for knockout auto-advance.
+  // The home/away team of this match is the WINNER (or LOSER, for the
+  // third-place match) of the referenced source match.
+  homeSourceMatchId String?
+  awaySourceMatchId String?
+  homeSourceType    String? // "WINNER" | "LOSER"
+  awaySourceType    String? // "WINNER" | "LOSER"
+
   homeTeam    Team         @relation("HomeTeam", fields: [homeTeamId], references: [id])
   awayTeam    Team         @relation("AwayTeam", fields: [awayTeamId], references: [id])
   predictions Prediction[]
